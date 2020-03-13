@@ -17,34 +17,22 @@ object Stats {
   def averageVector(ds: DataSet): Data = {
     // Transform each element to a sequence.
     val vectors = ds.map(_.toSeq)
-
-    /* To calculate the rolling sum:
-     * - Start from an empty average.
-     * - Begin the sum at the first element.
-     * - Repeat this for each element.
-     * If the two elements to sum are (3, 5),
-     * then avg = 3 at first
-     *   and 3 + (5-3) / 2
-     *     = 3 + 2 / 2
-     *     = 3 + 1 = 4.
-     */
     val averageSeq = vectors.transpose.map(average)
-
     Data(averageSeq)
   }
 
   /**
    * Averages a list of values.
-   * @param list The list of values to average.
+   * @param X The list of values to average.
    */
-  def average(list: Seq[Double]) = {
-    list.foldLeft( (0.0, 1) )
+  def average(X: Seq[Double]) = {
+    X.foldLeft( (0.0, 1) )
     { case ((avg, pos), next) => (avg + (next - avg)/pos, pos+1) }._1
   }
 
   /**
    * Computes the variance of a list of values.
-   * @param list The list.
+   * @param X The list.
    * @return The variance of the list.
    */
   def variance(X: Seq[Double]): Double = {
@@ -54,10 +42,10 @@ object Stats {
 
   /**
    * Computes the ecart-type of a list of values.
-   * @param list The list.
+   * @param X The list.
    * @return The ecart-type of the list.
    */
-  def ecartType(list: Seq[Double]): Double = sqrt(variance(list))
+  def ecartType(X: Seq[Double]): Double = sqrt(variance(X))
 
   def covariance(X: Seq[Double], Y: Seq[Double]): Double = {
     val avgX = average(X)
@@ -75,6 +63,8 @@ object Stats {
    */
   def correlation(X: Seq[Double], Y: Seq[Double]): Double = {
     covariance(X,Y) /
-    (ecartType(X) * ecartType(Y))
+    ( sqrt(X.map{x => pow(x - average(X), 2) }.sum)
+      * sqrt(Y.map{y => pow(y - average(Y), 2) }.sum)
+      )
   }
 }

@@ -39,6 +39,11 @@ case class DataSet (data: Seq[Data]) {
   def realClassAsInt : Seq[Int] = data.map(_.realClassAsInt)
 
   def toVectorSeq : Seq[Seq[Double]] = data.map(_.toSeq)
+  def toSeq : Seq[Double] = {
+    if (data(0).columns.length != 1) println("Warning: illegal toSeq")
+
+    data.map(_.toDouble)
+  }
 
   /**
    * Convenience method for Java.
@@ -47,6 +52,7 @@ case class DataSet (data: Seq[Data]) {
   def toArray: Array[Array[Double]] = toVectorSeq.map(_.toArray).toArray
 
   def length : Int = data.length
+  def dim = data(0).length
 }
 object DataSet {
   /**

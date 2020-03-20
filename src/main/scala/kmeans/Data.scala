@@ -27,6 +27,15 @@ case class Data(
     Data( slice.map(i => vector(i)), realClass, slice )
   def toSeq = vector
   def toArray = toSeq.toArray
+
+  /**
+   * If there is only one dimension, convert to a Double.
+   * @return A single double.
+   */
+  def toDouble: Double = {
+    if (this.columns.length != 1) println("Warning: illegal toDouble")
+    vector(0)
+  }
   def realClassAsInt: Int =
     this.realClass match {
       case Some(realClassName) => Data.classToInt(realClassName)

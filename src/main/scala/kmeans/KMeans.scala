@@ -1,6 +1,5 @@
 package kmeans
 
-import kmeans.DataSet
 import Stats.averageVector
 import scala.util.Random
 
@@ -29,11 +28,11 @@ object KMeans {
 
   /**
    * Chooses initial centroids.
-   * @param xss The DataSet from which to choose centroids.
+   * @param ds The DataSet from which to choose centroids.
    * @return A single random centroid.
    */
-  def randCentroid(xss: DataSet) =
-    xss(Random.nextInt(xss.length))
+  def randCentroid(ds: DataSet) =
+    ds.data(Random.nextInt(ds.data.length))
 
   /**
    * Place a Data into one of the Clusters.
@@ -46,9 +45,12 @@ object KMeans {
     val indexDMin = clusters.map({ case Cluster(c, _) => dist(c, d) })
       .zipWithIndex.min._2 // Get the index of the minimum value.
 
+    // Create a new dataset.
+    val newDataSet = new DataSet(clusters(indexDMin).dataset.data :+ d)
+
     // Place into the new cluster.
     val newCluster: Cluster =
-      clusters(indexDMin) match { case Cluster(c, ds) => Cluster(c, ds :+ d) }
+      clusters(indexDMin) match { case Cluster(c, _) => Cluster(c, newDataSet) }
 
     // Return the updated list of clusters.
     clusters.patch(indexDMin, Seq(newCluster), 1)
@@ -61,7 +63,7 @@ object KMeans {
    */
   def newCentroid(cluster: Cluster): Cluster = {
     val dataOfCluster = cluster match {case Cluster(_, ds) => ds}
-    val newCentroid = averageVector(dataOfCluster)
+    val newCentroid = Data( averageVector(dataOfCluster.toVectorSeq) )
 
     cluster match {case Cluster(_, ds) => Cluster(newCentroid, ds)}
   }
@@ -89,17 +91,15 @@ object KMeans {
       val centroids: Seq[Data] = clusters.map(_.centroid)
 
       val emptyClusters: Seq[Cluster] = centroids
-        .foldLeft[Seq[Cluster]](Seq()) (_ :+ Cluster(_, Seq()))
+        .foldLeft[Seq[Cluster]](Seq()) (_ :+ Cluster(_, new DataSet(Seq()) ) )
 
       // For each vector of our dataset, partition into a cluster.
-      val sortedClusters: Seq[Cluster] = ds
+      val sortedClusters: Seq[Cluster] = ds.data
         .foldLeft(emptyClusters) (partition(_, _))
 
       // Compute a new centroid for each cluster.
       val newClusters: Seq[Cluster] = sortedClusters
         .map(newCentroid)
-
-      newClusters.map({case Cluster(centroid, _) => println(centroid)})
 
       // Check if the centroids are the same as the old ones. Must converge eventually.
       val oldAndNewCentroids = (newClusters.map(_.centroid) zip clusters.map(_.centroid))
@@ -112,9 +112,9 @@ object KMeans {
     }
 
     // Start with some random centroids.
-    val centroids: Seq[Data] = Random.shuffle(ds).take(k)
+    val centroids: Seq[Data] = Random.shuffle(ds.data).take(k)
     val emptyClusters: Seq[Cluster] = centroids
-      .foldLeft[Seq[Cluster]](Seq()) (_ :+ Cluster(_, Seq()))
+      .foldLeft[Seq[Cluster]](Seq()) (_ :+ Cluster(_, new DataSet(Seq()) ) )
 
     // Iterate until options are exhausted.
     iterate(ds, emptyClusters, 0)

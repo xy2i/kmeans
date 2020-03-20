@@ -7,5 +7,7 @@ case class Cluster(
                   // Centroid for this cluster.
                   centroid: Data,
                   // Data associated with the cluster.
-                  dataset: Seq[Data]
-                  )
+                  dataset: DataSet
+                  ) {
+  def length = dataset.length
+}

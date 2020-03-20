@@ -1,25 +1,17 @@
 package kmeans
 
-import kmeans.DataSet
-
 import scala.math.pow
 import scala.math.sqrt
 
-class Stats {}
 object Stats {
-
   /**
    * Averages a list of data (a DataSet) and returns
    * a Data as its sum.
-   * @param ds The list of Data.
+   * @param vs A sequence of vectors.
    * @return The sum.
    */
-  def averageVector(ds: DataSet): Data = {
-    // Transform each element to a sequence.
-    val vectors = ds.map(_.toSeq)
-    val averageSeq = vectors.transpose.map(average)
-    Data(averageSeq)
-  }
+  def averageVector(vs: Seq[Seq[Double]]): Seq[Double] =
+    vs.transpose.map(average)
 
   /**
    * Averages a list of values.

@@ -12,6 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="sbt: com.github.haifengl:smile-plot:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-swing_2.13:2.1.1:jar" level="project" />
     <orderEntry type="library" name="sbt: xpp3:xpp3_min:1.1.4c:jar" level="project" />
     <orderEntry type="library" name="sbt: xmlpull:xmlpull:1.1.3.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.xerial.snappy:snappy-java:1.1.7.3:jar" level="project" />
@@ -179,5 +180,7 @@
     <orderEntry type="library" name="sbt: com.github.fommil.netlib:native_ref-java:1.1:jar" level="project" />
     <orderEntry type="library" name="sbt: com.github.fommil.netlib:core:1.1.2:jar" level="project" />
     <orderEntry type="library" name="sbt: com.github.fommil:jniloader:1.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: ch.qos.logback:logback-classic:1.2.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: ch.qos.logback:logback-core:1.2.3:jar" level="project" />
   </component>
 </module>

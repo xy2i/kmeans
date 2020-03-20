@@ -14,6 +14,11 @@ libraryDependencies += "com.github.haifengl" % "smile-math" % "2.2.1"
 // https://mvnrepository.com/artifact/com.github.haifengl/smile-scala
 libraryDependencies += "com.github.haifengl" %% "smile-scala" % "2.2.1"
 
+// Couldn't load class org.slf4j.impl.StaticLoggerBinder
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
+
+// Easier swing bindings
+libraryDependencies += "org.scala-lang.modules" %% "scala-swing" % "2.1.1"
 
 // Note, it's not required for you to define these three settings. These are
 // mostly only necessary if you intend to publish your library's binaries on a

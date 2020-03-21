@@ -12,6 +12,9 @@ import scala.swing.TabbedPane.Page
 import scala.swing._
 import scala.swing.event.ButtonClicked
 
+/**
+ * A KMeans visualisation.
+ */
 object KMeansVis {
   def apply(dataset: DataSet, columnsIDs: Seq[Int]): BoxPanel =
     new BoxPanel(Orientation.Vertical) {
@@ -20,7 +23,7 @@ object KMeansVis {
       // A list of selected boxes that will be used for future usage.
       var list = columnsIDs
 
-      kmeansComponent.minimumSize = new Dimension(300,300)
+      kmeansComponent.minimumSize = new Dimension(800,600)
 
       val sepalLength = new CheckBox("Sepal length")
       val sepalWidth = new CheckBox("Sepal width")
@@ -45,7 +48,7 @@ object KMeansVis {
       listenTo(refreshButton)
       reactions += {
         // General handler for both checkboxes and buttons.
-        case ButtonClicked(_) => {
+        case ButtonClicked(_) =>
           // How many boxes are checked?
           // We get a list of the checked IDs, corresponding to the variable's columns:
           // [0,1,3] means to take the first, third and fourth variable,
@@ -66,8 +69,8 @@ object KMeansVis {
             // Remove the KMeans and generate a new one.
             contents.remove(1)
             contents += kmeansVis(dataset, list)
+            contents(1).revalidate()
           }
-        }
       }
       contents += kmeansComponent
    }
@@ -104,10 +107,8 @@ object KMeansVis {
         canvas.point(legends(data.realClassAsInt), colors(i), data.toSeq: _*)
     }
     // Plot the centroids.
-    centroids.foreach{
-      case data =>
-        canvas.point('Q', Color.GREEN, data.toSeq: _*)
-    }
+    centroids.foreach(data =>
+      canvas.point('Q', Color.GREEN, data.toSeq: _*))
 
     // https://alvinalexander.com/bookmarks/scala/scalas-missing-splat-operator
     // The function is variadic, so splat the list.

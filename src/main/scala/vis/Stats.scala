@@ -5,23 +5,20 @@ import kmeans.Stats._
 
 import scala.swing._
 
+/**
+ * The stats visualisation.
+ */
 object Stats {
   def apply(ds: DataSet): Component = {
     var out = "" // Mutable, accumulates text.
     // Use the dataArray, since it carries variables already.
-    val variables = 0 to ds.dim - 1
-    variables.foreach{ case i =>
+    val variables = 0 until ds.dim
+    variables.foreach { i =>
       val X = ds.column(i).toSeq
-      println(X)
 
       out += s"Variable ${i + 1} (moyenne): ${average(X)}\n"
       out += s"Variable ${i + 1} (variance): ${variance(X)}\n"
       out += s"Variable ${i + 1} (ecartType): ${ecartType(X)}\n"
-/*
-      if (i != 3) {
-        val Y = data.foldLeft(Array[Double]()) { case (acc, x) => acc :+ x(i + 1) }
-        out += s"Variable ${i + 1} et ${i + 2}: ${correlation(X, Y)}\n"
-      }*/
     }
     // Get all combinations of two variables, and invoke permutations on each of them.
     variables.combinations(2).foreach{ case Seq(i, j) =>

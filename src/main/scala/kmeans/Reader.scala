@@ -6,6 +6,11 @@ import scala.io.Source
    Call toData to convert.
  */
 object Reader {
+  /**
+   * Given a filename in resources, create classes and return a DataSet.
+   * @param filename The filename.
+   * @return A fully formed dataset.
+   */
   def toData(filename: String): DataSet =
     new DataSet(
       Source.fromResource(filename)

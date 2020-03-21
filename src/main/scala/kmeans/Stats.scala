@@ -6,7 +6,7 @@ import scala.math.sqrt
 object Stats {
   /**
    * Averages a list of data (a DataSet) and returns
-   * a Data as its sum.
+   * a vector as its sum.
    * @param vs A sequence of vectors.
    * @return The sum.
    */
@@ -17,7 +17,7 @@ object Stats {
    * Averages a list of values.
    * @param X The list of values to average.
    */
-  def average(X: Seq[Double]) = {
+  def average(X: Seq[Double]): Double = {
     X.foldLeft( (0.0, 1) )
     { case ((avg, pos), next) => (avg + (next - avg)/pos, pos+1) }._1
   }
@@ -39,6 +39,12 @@ object Stats {
    */
   def ecartType(X: Seq[Double]): Double = sqrt(variance(X))
 
+  /**
+   * Computes the covariance between two variables.
+   * @param X The first variable.
+   * @param Y The second variable.
+   * @return A covariance.
+   */
   def covariance(X: Seq[Double], Y: Seq[Double]): Double = {
     val avgX = average(X)
     val avgY = average(Y)

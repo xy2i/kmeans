@@ -102,7 +102,7 @@ object KMeans {
         .map(newCentroid)
 
       // Check if the centroids are the same as the old ones. Must converge eventually.
-      val oldAndNewCentroids = (newClusters.map(_.centroid) zip clusters.map(_.centroid))
+      val oldAndNewCentroids = newClusters.map(_.centroid) zip clusters.map(_.centroid)
       val finish = oldAndNewCentroids // Each and every centroid must be equal to the old one.
         .foldLeft(true) {case (acc, (oldC, newC)) => acc && (oldC == newC)}
       if (finish)
